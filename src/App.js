@@ -7,15 +7,20 @@ class App extends Component {
     super(props)
     // state
     this.state = {
-      users: []
+      users: [],
+      loading: false
     }
   }
 
   getUsers() {
+    this.setState({
+      loading: true
+    });
     axios('https://randomuser.me/api/?nat=US&results=5')
     .then(res => 
       this.setState({
-        users: res.data.results
+        users: res.data.results,
+        loading: false
       })
     );
   }
@@ -27,14 +32,15 @@ class App extends Component {
   render() { 
     return (
       <div className="App">
-        {this.state.users.map(user => 
+        {!this.state.loading ? this.state.users.map(user => (
           <div>
             <h3>{user.name.first} {user.name.last}</h3>
             <p>{user.email}</p>
             <p>{user.cell}</p>
             <hr/>
-            
-          </div>)
+          </div>
+        ))
+          : 'Loading...'
         }
       </div>
     );
