@@ -10,7 +10,9 @@ class App extends Component {
     this.state = {
       users: [],
       loading: false
-    }
+    };
+    // bind
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   getUsers() {
@@ -26,6 +28,12 @@ class App extends Component {
     );
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.getUsers();
+    // console.log('more users loaded');
+  }
+
   componentDidMount() {
     this.getUsers();
   }
@@ -33,14 +41,19 @@ class App extends Component {
   render() { 
     return (
       <div className="App">
-        {!this.state.loading ? this.state.users.map(user => (
-          <div>
-            <h3>{user.name.first} {user.name.last}</h3>
-            <p>{user.email}</p>
-            <p>{user.cell}</p>
-            <hr/>
-          </div>
-        )) : (<Loading message='Loadinggg...' />)
+        {!this.state.loading ? (
+          this.state.users.map(user => (
+            <div>
+              <h3>{user.name.first} {user.name.last}</h3>
+              <p>{user.email}</p>
+              <p>{user.cell}</p>
+              <hr/>
+              <form onSubmit={this.handleSubmit} >
+                <input type="submit" value="load users" />
+              </form>
+            </div>
+          ))
+        ) : (<Loading message='Loadinggg...' />)
         }
       </div>
     );
