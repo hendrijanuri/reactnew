@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Loading from './Loading'
 
@@ -19,10 +18,10 @@ class App extends Component {
     this.setState({
       loading: true
     });
-    axios('https://randomuser.me/api/?nat=US&results=5')
+    axios('https://randomuser.me/api/?nat=US&results=1')
     .then(res => 
       this.setState({
-        users: res.data.results,
+        users: [...this.state.users, ...res.data.results],
         loading: false
       })
     );
@@ -39,18 +38,21 @@ class App extends Component {
   }
 
   render() { 
+    const { loading, users } = this.state;
     return (
       <div className="App">
-        {!this.state.loading ? (
-          this.state.users.map(user => (
+        <form onSubmit={this.handleSubmit} >
+          <input type="submit" value="add users" />
+        </form>
+        <hr />
+        {!loading ? (
+          users.map(user => (
             <div>
               <h3>{user.name.first} {user.name.last}</h3>
               <p>{user.email}</p>
               <p>{user.cell}</p>
-              <hr/>
-              <form onSubmit={this.handleSubmit} >
-                <input type="submit" value="load users" />
-              </form>
+              <hr />
+              
             </div>
           ))
         ) : (<Loading message='Loadinggg...' />)
@@ -62,17 +64,3 @@ class App extends Component {
  
 export default App;
 
-// function App() {
-//   // state
-//   const [users] = useState([]);
-
-//   useEffect(() => {
-
-//   }, []);
-
-//   return (
-    
-//   );
-// }
-
-// export default App;
