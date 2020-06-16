@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 // import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Loading from './Loading'
 
 class App extends Component {
   constructor(props) {
@@ -39,8 +40,7 @@ class App extends Component {
             <p>{user.cell}</p>
             <hr/>
           </div>
-        ))
-          : 'Loading...'
+        )) : (<Loading message='Loadinggg...' />)
         }
       </div>
     );
